@@ -1,0 +1,67 @@
+{
+  "v": "0.3",
+  "guid": "ab3b7c19-7533-4dad-897f-ddb739234a16",
+  "name": "smokeLauncherBank",
+  "order": 68,
+  "date": "1945.09.03",
+  "iconOffset": [
+    0.15,
+    -0.1
+  ],
+  "iconRotation": [],
+  "iconScale": 3,
+  "tags": [
+    "decoration",
+    "crewEquipment",
+    "external",
+    "smokeLauncherBank"
+  ],
+  "components": [
+    {
+      "type": "model",
+      "info": {
+        "damageable": false,
+        "meshGuid": "4155910536a20744f92326d954d869fe",
+        "v": "0.2",
+        "mass": 18,
+        "materialGuids": [
+          "244fb3087922ee7428d51ec7ebe33800"
+        ],
+        "scaling": true,
+        "flipping": true,
+        "placementSurface": false,
+        "selectable": true
+      },
+      "fileID": "smokeLauncherBankModel"
+    }
+  ],
+  "transform": {
+    "mirroring": true,
+    "duplication": true,
+    "pickup": true,
+    "snapToCentre": true,
+    "autoRotate": false,
+    "airPlacement": true,
+    "translation": true,
+    "rotation": true,
+    "scaling": true,
+    "dynamic": false,
+    "placementMode": "upright",
+    "scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "maxScale": [
+      1.25,
+      1.25,
+      1.25
+    ],
+    "minScale": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "objects": []
+  }
+}

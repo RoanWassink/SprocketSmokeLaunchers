@@ -1,0 +1,21 @@
+# Smoke Launchers 0.2.4 audio candidate
+
+0.2.2 crashed entering Vehicle Editor. This candidate removes the new async lifecycle hooks and GPU icon compositing. It preserves working0.2.1 three-shot native tri mesh, mirror placement, smoke clouds, louder authored launch cue, controls/configuration,18kg120 and date1945.09.03.
+
+A synchronous GameController.SceneUpdate observer reads native combat state. A running scenario whose active state is its active mission begins one fresh session; editor/idle/ending or a new game-mode instance ends the prior session. Deathmatch uses native running mode and missionRunning. Begin is idempotent: normal updates, pause, focus, camera/scope, input config and Enabled toggles cannot rearm while combat identity remains active. No Task-returning or CancellationToken Harmony hook remains.
+
+The original smokeLauncherAmmoV1 key remains. Editor preparation writes1:0. Combat writes2:sessionNonce:ticket:spent. Each new native combat loads one three-grenade salvo; same-session copies/snapshot reloads share monotonic spent tickets. Legacy spent saves reload in a new combat, but cannot refill an existing spent live bank. Malformed/unknown current tickets fail closed.1024 total tickets per session are not recycled, bounding legacy/missing-state new-bank spawning;128 active banks,8 per volley,48 effects slots remain. SceneUpdate observes state after native update, so initial input may wait one frame for the session to be recognized. Async ordering/state transitions need live tests.
+
+Icon: own part uses the borrowed native germanSmokeLauncher sprite. The smoke badge is deferred in this minimal crash-isolation build. No GPU readback, temporary render target or icon asset file is used. Optional own-card hook has separate Harmony owner; native sprite is never destroyed. Existing authored SmokeBadge pure source remains historical/test-only and is not used by runtime.
+
+Prepare with matching Sprocket0.2.55.5/Unity6000.3.21f1, BepInEx6 IL2CPP and separate Keybinds>=0.1.5<0.2.0. With game closed, restore/back up ownDLL/JSON/XML, preserveCFG/keybinds/tank backups, then extract runtime ZIP into game root. Factory G is configurable via Settings/keybinds / Nero / Smoke Launchers / Fire smoke salvo. No installation or publication done here. Use TEST-PLAN.md; User confirmed0.2.3 runs without crashes and stopping/restarting Play reloads banks.0.2.4 audio requires live confirmation. Visual smoke only, no AI or thermal occlusion implemented.
+
+Build: dotnet build -c Release; dotnet run --project tests -c Release; ./Verify.ps1; ./Package.ps1. Packages contain one own DLL and own definitions/docs; local native references remain Private=false. Old immutable candidates are preserved.
+
+## Stronger launch and deployment sounds
+
+Launch remains an authored short three-pulse discharge, now2.8x original PCM gain (peak0.775026/RMS0.213539): +5.42dB above0.2.1. Source near-distance grows1m to6m and maximum45m to65m, making it more audible from the player's camera without changing saved source volume. A distinct authored0.48s grenade ignition pop/thump/pressure hiss plays once when each grenade actually transitions to smoke. It uses a prewarmed voice per effect slot, near4m/max75m, located at actual raycast hit point or ballistic flight-expiry point. Smoke visual center still stays2.2m above that point; visuals/trajectory are unchanged.
+
+Audio/LaunchVolume default0.6 is retained and controls BOTH sounds. Existing custom values are not rewritten;0 mutes both. No new config/default migration. There are at most176 owned voices (128 banks+48 effects), two authored native clips and no sound created per puff. Pause/clear/release/unload follow existing lifecycle. Burst upload failure retains launch playback; optional sound failures do not disable smoke. AudioClip injected upload path and AudioSource members reuse the verified working implementation.
+
+War Thunder was a feel reference only; no War Thunder recording, game asset, sound extraction or third-party audio is included. New cues are deterministic authored synthesis. The0.2.3 synchronous state observer and removal of async lifecycle/GPU icon paths remain unchanged. Plain native icon remains, smoke badge deferred.
