@@ -1,24 +1,20 @@
 <!-- sp-compat {"hamish.sprocket": "0.2.55.5", "bepinex.bepinex": "6.0.0-be.788"} -->
 
-**Required dependency: [Sprocket Keybinds API 0.1.5](https://github.com/RoanWassink/SprocketKeybinds/releases/tag/v0.1.5). Hydropneumatic, Telescopic Mast, Thermal Sight and Smoke Launchers will not load without it. The full pack includes it: keep its DLL installed. For separate plugin downloads, install the API ZIP once, merging its BepInEx folder into your game folder.**
+## Smoke Launchers 0.2.5 — Beta
 
-Placeable tri-smoke launchers that fire three grenades and build a visual smoke screen.
+More launchers, one salvo! This update fixes a limit that prevented vehicles with nine or more loaded smoke banks from firing.
 
-## What changes for you
+- Fire up to **16 banks / 48 grenades** together, provided enough smoke-effect slots are free. Each bank still fires three grenades.
+- Clear warnings explain too many banks, smoke effects still initializing, or insufficient free slots.
+- Rejected volleys do **not** spend ammunition. The smoke pool size is unchanged; existing effects may need to clear before another vehicle can fire.
+- Existing launch/ignition sounds, mirroring, controls, vehicle saves and configuration remain compatible.
 
-Each new Play/combat session prepares a fresh salvo. Native mirroring is restored. Launch sounds are louder, and each grenade makes a separate ignition sound when it starts deploying smoke. The part uses the native launcher icon; a smoke badge is deferred.
+**Required: [Keybinds API 0.1.5](https://github.com/RoanWassink/SprocketKeybinds/releases/tag/v0.1.5). Without it this plugin will not load.** Also requires Sprocket 0.2.55.5 on Windows x64 and a working Sprocket Mod Loader / BepInEx 6 IL2CPP 6.0.0-be.788 setup. Neither dependency is bundled. For Cold War availability, install the [Core or full pack](https://github.com/RoanWassink/SprocketColdWarExpansionPack/releases/tag/v0.1.0).
 
-**Beta:** tested together in the Cold War pack. Armour-response values are bounded gameplay approximations, not exact historical protection or a guarantee against every shell.
+**Install/update:** close the game and back up your saves and matching mod files. Extract the ZIP's BepInEx and Sprocket_Data folders into the folder containing Sprocket.exe. Replace matching files, retain just one Smoke DLL, and preserve your configs and keybinds. Full-pack users can update Smoke this way; the v0.1.0 pack ZIP itself still contains 0.2.4. Restore backed-up files to roll back.
 
-## Requirements and update
+**Beta limits:** automated capacity and geometry checks passed, but the new 9/16/17-bank and busy-pool scenarios still need in-game confirmation. Smoke is visual only and does not block AI or thermal vision. Back up vehicle saves before testing.
 
-Sprocket 0.2.55.5, Windows x64 and an already-working Sprocket Mod Loader / BepInEx 6 IL2CPP setup. **Loader not included. Quality of Life not required.**
-- [Sprocket Keybinds 0.1.5](https://github.com/RoanWassink/SprocketKeybinds/releases/tag/v0.1.5), installed separately once. This is required: without a compatible API, BepInEx skips this mod. The full pack includes it.
-- Cold War availability requires the [Cold War core/pack](https://github.com/RoanWassink/SprocketColdWarExpansionPack/releases/tag/v0.1.0). Install its core-only download if you do not want the full pack.
-
-Close the game, back up matching files and saves, then merge the ZIP's folders into the game directory. Keep one DLL per plugin and preserve customized configs/catalogues/WAV overrides. See [README](https://github.com/RoanWassink/SprocketSmokeLaunchers#readme) for exact use, controls, limitations and uninstall instructions.
+[Full installation, controls and troubleshooting](https://github.com/RoanWassink/SprocketSmokeLaunchers#readme).
 
 [Support my ChatGPT budget and help me reverse engineer Sprocket to make more mods](https://www.paypal.com/donate/?hosted_button_id=7PE3SDBETXFQ6).
-
-[Separate loader installation](https://github.com/Hans21223/Sprocket-Mod-Loader).
-

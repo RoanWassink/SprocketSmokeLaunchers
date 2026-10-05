@@ -4,7 +4,7 @@
 
 Placeable tri-smoke launchers that fire three grenades and build a visual smoke screen.
 
-**v0.2.4 — beta.** Each new Play/combat session prepares a fresh salvo. Native mirroring is restored. Launch sounds are louder, and each grenade makes a separate ignition sound when it starts deploying smoke. The part uses the native launcher icon; a smoke badge is deferred.
+**v0.2.5 — beta.** Fixes the eight-bank salvo limit: nine banks can now launch 27 grenades, and sixteen can launch 48. Rejected volleys do not consume ammunition. Each new Play/combat session prepares a fresh salvo, with launch and individual ignition sounds. The part uses the native launcher icon; a smoke badge is deferred.
 
 ## Requirements
 
@@ -17,14 +17,14 @@ Placeable tri-smoke launchers that fire three grenades and build a visual smoke 
 ## Install and update
 
 1. Install a working Sprocket Mod Loader / BepInEx 6 IL2CPP setup, run Sprocket once, then close it. The loader is a separate prerequisite and is not included.
-2. Download **SprocketSmokeLaunchers-v0.2.4.zip** from [this release](https://github.com/RoanWassink/SprocketSmokeLaunchers/releases/tag/v0.2.4).
+2. Download **SprocketSmokeLaunchers-v0.2.5.zip** from [this release](https://github.com/RoanWassink/SprocketSmokeLaunchers/releases/tag/v0.2.5).
 3. In Steam, use Sprocket > Manage > Browse local files. Copy the ZIP's folders into the folder containing Sprocket.exe. Merge folders; keep the internal structure intact.
 4. Keep one copy of each plugin. Back up matching mod files and vehicle saves before updating. Never replace the whole BepInEx folder.
 5. Preserve existing BepInEx/config files, customized thermal-models.json and sound overrides. Install required dependencies separately. Restart the game.
 
 ## Usage, controls and settings
 
-Place **Smoke launcher bank** in crew equipment and use **Fire smoke salvo** in Mod keybinds (factory default G). A bank launches exactly three grenades once per combat session; Stop/Play prepares it again. The action fires loaded banks on the controlled vehicle together, up to eight banks per volley. Smoke lasts about 25 seconds. **Smoke is visual only: it does not block AI vision or thermal sights.** Native mirroring/scaling and the native launcher icon are used. Audio/LaunchVolume in BepInEx/config/sprocket.smokelaunchers.cfg ranges 0–1, default 0.6; it controls both launch and grenade ignition sounds, and 0 mutes both. Edit with the game closed and restart. The smoke icon badge is deferred. Before removing the mod, remove its banks from vehicles and save.
+Place **Smoke launcher bank** in crew equipment and use **Fire smoke salvo** in Mod keybinds (factory default G). A bank launches exactly three grenades once per combat session; Stop/Play prepares it again. The action fires loaded banks on the controlled vehicle together, up to sixteen banks per volley when enough smoke-effect slots are free. Smoke lasts about 25 seconds. **Smoke is visual only: it does not block AI vision or thermal sights.** Native mirroring/scaling and the native launcher icon are used. Audio/LaunchVolume in BepInEx/config/sprocket.smokelaunchers.cfg ranges 0–1, default 0.6; it controls both launch and grenade ignition sounds, and 0 mutes both. Edit with the game closed and restart. The smoke icon badge is deferred. Before removing the mod, remove its banks from vehicles and save.
 
 ## Troubleshooting, saves and rollback
 
@@ -39,3 +39,7 @@ Made with AI assistance. Mod code is MIT licensed; native Sprocket meshes/icons 
 ## Where to get the separate loader
 
 Use [Hans21223's Sprocket Mod Loader](https://github.com/Hans21223/Sprocket-Mod-Loader) and follow its [manual installation guide](https://github.com/Hans21223/Sprocket-Mod-Loader/blob/main/package/MANUAL-INSTALL.md) or its documented manager installation. That upstream project targets the tested Sprocket version and supplies the Sprocket-specific patch. These mod downloads do not install the loader. Follow one upstream loader method and its update/backup instructions; the creator's supplied ModManager archive is not redistributed here.
+
+## Salvo capacity and validation
+
+The existing pool holds 48 grenades. More than 16 loaded banks, initialization still in progress, or insufficient free slots rejects the whole salvo without spending ammunition. Check the warning in BepInEx/LogOutput.log for required and available counts; wait for existing effects to clear before trying again. Automated checks passed; the new 9/16/17-bank and busy-pool cases still need in-game confirmation. The full pack v0.1.0 still includes Smoke 0.2.4; this standalone update can replace that module without changing its saved settings.

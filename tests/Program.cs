@@ -62,7 +62,17 @@ for(int i=0;i<3;i++) {
 }
 Check(Math.Abs(TriLauncherGeometry.Azimuth(1)-30)<.001 && Math.Abs(TriLauncherGeometry.Azimuth(0)-9.24647)<.001 && Math.Abs(TriLauncherGeometry.Azimuth(2)-50.75360)<.001,"native measured axes");
 for(int banks=0;banks<=128;banks++) for(int slots=0;slots<=48;slots++)
-    Check(SmokeRules.CanVolley(banks,slots)==(banks>0 && banks<=8 && slots>=banks*3),"all-or-none capacity");
+    Check(SmokeRules.CanVolley(banks,slots)==(banks>0 && banks<=16 && slots>=banks*3),"all-or-none capacity");
+Check(SmokeRules.MaxVolleyBanks==16 && SmokeRules.CanVolley(9,27) && !SmokeRules.CanVolley(9,26),"nine-bank regression and exact capacity");
+Check(SmokeRules.CanVolley(16,48) && !SmokeRules.CanVolley(17,48),"full sixteen-bank coherent volley bounded by existing pool");
+for(int tube=0;tube<3;tube++) foreach(var yaw in new[]{0f,30f,90f,180f}) foreach(var mirror in new[]{1f,-1f}) foreach(var size in new[]{.5f,1f,1.25f}) {
+ var q=System.Numerics.Quaternion.CreateFromYawPitchRoll(yaw*MathF.PI/180,.31f,-.17f); var scale=new System.Numerics.Vector3(mirror*size,size,size);
+ var localAxis=TriLauncherGeometry.Direction(tube); var axis=System.Numerics.Vector3.Normalize(System.Numerics.Vector3.Transform(localAxis*scale,q));
+ var mouth=System.Numerics.Vector3.Transform(TriLauncherGeometry.Mouth(tube)*scale,q);
+ var muzzle=System.Numerics.Vector3.Transform(TriLauncherGeometry.Muzzle(tube)*scale,q);
+ Check(System.Numerics.Vector3.Dot(System.Numerics.Vector3.Normalize(muzzle-mouth),axis)>.99999f,"mirrored/rotated/scaled launch axis follows rendered tube lip");
+ Check(Math.Abs((muzzle-mouth).Length()-.015f*size)<.00001f,"muzzle clearance follows native geometry scale");
+}
 Check(SmokeRules.MaxClouds*SmokeRules.PuffsPerCloud==768,"hard particle budget");
 // Repeated spawn/volley cycles: full pool rejects a new volley without spending;
 // after expiry a fresh prepared vehicle can use the budget again.

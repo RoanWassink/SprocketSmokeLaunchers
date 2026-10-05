@@ -12,8 +12,8 @@ using UnityEngine.SceneManagement;
 using SerializationInfo = Il2CppSystem.Runtime.Serialization.SerializationInfo;
 namespace SprocketSmokeLaunchers;
 
-[BepInPlugin(Guid, "Sprocket Smoke Launchers", "0.2.4")]
-[BepInDependency(Keybinds.PluginGuid, ">=0.1.5 <0.2.4")]
+[BepInPlugin(Guid, "Sprocket Smoke Launchers", "0.2.5")]
+[BepInDependency(Keybinds.PluginGuid, ">=0.1.5 <0.2.5")]
 public sealed class Plugin : BasePlugin
 {
     public const string Guid="sprocket.smokelaunchers";
@@ -36,7 +36,7 @@ public sealed class Plugin : BasePlugin
         catch { harmony.UnpatchSelf(); Keybinds.Unregister(Guid,"fire-salvo"); throw; }
         try { iconHarmony=new Harmony(Guid+".icons"); iconHarmony.PatchAll(typeof(IconHooks)); }
         catch(Exception ex) { iconHarmony?.UnpatchSelf(); Runtime.Warn("Optional icon patch",ex); }
-        Log.LogInfo("Smoke Launchers 0.2.4: three native tubes / one salvo per bank, visual smoke only; no AI or thermal occlusion claim. Configure Fire smoke salvo in Settings/keybinds.");
+        Log.LogInfo("Smoke Launchers 0.2.5: three native tubes / one salvo per bank, visual smoke only; no AI or thermal occlusion claim. Configure Fire smoke salvo in Settings/keybinds.");
     }
     public override bool Unload()
     {
@@ -85,8 +85,8 @@ internal static class Runtime
     internal static bool Own(VehicleObjectModel model) => model.ComponentID==Component && model.VehicleObject?.HasTag(Tag)==true;
     internal static void Warn(string key,Exception ex) { if(Warnings.Add(key)) Plugin.Instance.Log.LogWarning($"[Smoke] {key}: {ex}"); }
     private static void Notice(string key,string message) { if(Warnings.Add(key)) Plugin.Instance.Log.LogWarning("[Smoke] "+message); }
-    private static void Feedback(string message)
-    { if(Time.unscaledTime<nextFeedback) return; nextFeedback=Time.unscaledTime+2; Plugin.Instance.Log.LogInfo("[Smoke] "+message); }
+    private static void Feedback(string message,bool warning=false)
+    { if(Time.unscaledTime<nextFeedback) return; nextFeedback=Time.unscaledTime+2; if(warning) Plugin.Instance.Log.LogWarning("[Smoke] "+message); else Plugin.Instance.Log.LogInfo("[Smoke] "+message); }
     private static Bank? Get(VehicleObjectModel model)
     {
         if(!Own(model)) return null;
@@ -174,8 +174,13 @@ internal static class Runtime
             Volley.Add(bank);
         }
         if(Volley.Count==0) { Feedback("No loaded, installed launcher banks on controlled vehicle."); return; }
-        if(!CloudPool.Ready || !SmokeRules.CanVolley(Volley.Count,CloudPool.Free))
-        { Feedback("Salvo postponed: effects pool warming/busy or more than eight loaded banks. No ammunition spent."); return; }
+        if(Volley.Count>SmokeRules.MaxVolleyBanks)
+        { Feedback($"Salvo postponed: {Volley.Count} loaded banks exceed the {SmokeRules.MaxVolleyBanks}-bank limit ({SmokeRules.MaxClouds} grenade slots / {SmokeRules.Tubes} tubes). No ammunition spent.",true); return; }
+        if(!CloudPool.Ready)
+        { Feedback("Salvo postponed: effects pool not ready. No ammunition spent.",true); return; }
+        int required=Volley.Count*SmokeRules.Tubes, free=CloudPool.Free;
+        if(!SmokeRules.CanVolley(Volley.Count,free))
+        { Feedback($"Salvo postponed: {Volley.Count} banks need {required} grenade slots; {free}/{SmokeRules.MaxClouds} available. Wait for existing clouds to expire. No ammunition spent.",true); return; }
         // Reserve the entire volley before spending any bank: never partial cap consumption.
         int fired=0;
         foreach(var bank in Volley)
