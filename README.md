@@ -1,5 +1,7 @@
 # Sprocket SmokeLaunchers
 
+**Required dependency: [Sprocket Keybinds API 0.1.5](https://github.com/RoanWassink/SprocketKeybinds/releases/tag/v0.1.5). Hydropneumatic, Telescopic Mast, Thermal Sight and Smoke Launchers will not load without it. The full pack includes it: keep its DLL installed. For separate plugin downloads, install the API ZIP once, merging its BepInEx folder into your game folder.**
+
 Placeable tri-smoke launchers that fire three grenades and build a visual smoke screen.
 
 **v0.2.4 — beta.** Each new Play/combat session prepares a fresh salvo. Native mirroring is restored. Launch sounds are louder, and each grenade makes a separate ignition sound when it starts deploying smoke. The part uses the native launcher icon; a smoke badge is deferred.
